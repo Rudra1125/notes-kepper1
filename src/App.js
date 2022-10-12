@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from './components/Header/Header';
+import Addkeeper from "./components/addKepper/AddKeeper";
+import { useEffect, useState } from "react";
+import ShowKepper from "./components/showKeeper/ShowKepper";
+import axios from "axios";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  const [keeperList, setKeeperList] = useState([])
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/getAll')
+      .then(res => setKeeperList(res.data) )
+  },[]);
+  
+  return (<div className="App">
+    
+    {console.log("keeperList:",keeperList)}
+    <Header/>
+    <Addkeeper keeperList={keeperList} setKeeperList={setKeeperList}/>
+    <ShowKepper keeperList={keeperList} setKeeperList={setKeeperList} />
+  </div>
+)}
 
 export default App;
